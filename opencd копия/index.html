@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>F • bio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #0a0a0a;
+            --text: #e8e8e8;
+            --muted: #666;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .parallax-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('Bd47eHRKRZ.jpg');
+            background-size: cover;
+            background-position: center;
+            filter: blur(12px) brightness(0.25) grayscale(100%);
+            z-index: -1;
+        }
+
+        .particle {
+            position: fixed;
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.45);
+            pointer-events: none;
+            z-index: 0;
+            animation: floatParticle 15s linear infinite;
+        }
+
+        @keyframes floatParticle {
+            0% { transform: translateY(100vh) translateX(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.6; }
+            50% { transform: translateY(50vh) translateX(30px) rotate(180deg); }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-100vh) translateX(-20px) rotate(360deg); opacity: 0; }
+        }
+
+        .container {
+            max-width: 420px;
+            width: 100%;
+            padding: 3rem 2rem;
+            text-align: center;
+            background: rgba(20, 20, 20, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            transition: transform 0.1s ease-out;
+        }
+
+        .avatar {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: scale(0.9);
+            animation: fadeIn 1s ease forwards;
+            animation-delay: 0.3s;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            margin-bottom: 0.5rem;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards;
+            animation-delay: 0.5s;
+        }
+
+        .username {
+            color: var(--muted);
+            font-size: 0.85rem;
+            letter-spacing: 0.15em;
+            text-transform: lowercase;
+            margin-bottom: 2.5rem;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards;
+            animation-delay: 0.6s;
+        }
+
+        .bio {
+            font-size: 0.95rem;
+            line-height: 1.9;
+            color: #999;
+            margin-bottom: 2.5rem;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards;
+            animation-delay: 0.7s;
+        }
+
+        .langs {
+            display: flex;
+            justify-content: center;
+            gap: 1.2rem;
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards;
+            animation-delay: 0.8s;
+        }
+
+        .lang-item {
+            color: #555;
+            font-size: 0.65rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            position: relative;
+            padding: 0 0.3rem;
+        }
+
+        .lang-item:not(:last-child)::after {
+            content: '//';
+            position: absolute;
+            right: -0.9rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #2a2a2a;
+            font-size: 0.7rem;
+        }
+
+        .lang-dot {
+            color: #444;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .pronouns {
+            color: #555;
+            font-size: 0.8rem;
+            letter-spacing: 0.25em;
+            margin-top: 0.5rem;
+            margin-bottom: 2.5rem;
+            font-style: italic;
+        }
+
+        .link-label {
+            color: #333;
+            font-size: 0.7rem;
+            letter-spacing: 0.3em;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .divider {
+            width: 120px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #444, transparent);
+            margin: 0 auto 2.5rem;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards;
+            animation-delay: 0.9s;
+            position: relative;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '◇';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #333;
+            font-size: 0.6rem;
+        }
+
+        .divider::before {
+            left: 10px;
+        }
+
+        .divider::after {
+            right: 10px;
+        }
+
+        .links {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards;
+            animation-delay: 1s;
+        }
+
+        .link {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 0.12em;
+            padding: 0.8rem 0;
+            border: 1px solid #222;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: #111;
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+
+        .link:hover::before {
+            left: 0;
+        }
+
+        .link:hover {
+            border-color: #333;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 2rem 1.5rem;
+            }
+            .avatar {
+                width: 120px;
+                height: 120px;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="parallax-bg"></div>
+    <div class="particles"></div>
+    <div class="container">
+        <img src="avatar.jpg" alt="avatar" class="avatar">
+        <h1>F</h1>
+        <p class="username">@F.kaa</p>
+        <div class="divider"></div>
+        <p class="bio">
+            SunLight admin and developer<br>
+            rahhh
+        </p>
+        <div class="langs">
+            <span class="lang-item">en</span>
+            <span class="lang-item">ru</span>
+        </div>
+        <p class="pronouns">he/him</p>
+        <div class="divider"></div>
+        <p class="link-label">-links-</p>
+        <div class="links">
+            <a href="https://discord.gg/DHWfqG2kT" class="link">discord</a>
+            <a href="https://t.me/+trATjSh-K1I3NTUy" class="link">telegram</a>
+            <a href="https://www.youtube.com/@%D0%AD%D1%84%D1%84%D0%BA%D0%B0" class="link">youtube</a>
+        </div>
+    </div>
+    <script>
+        const particlesContainer = document.querySelector('.particles');
+        for (let i = 0; i < 35; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + 'vw';
+            particle.style.top = Math.random() * 100 + 'vh';
+            particle.style.position = 'fixed';
+            particle.style.animationDelay = Math.random() * 3 + 's';
+            particle.style.animationDuration = (8 + Math.random() * 12) + 's';
+            particle.style.animation = 'floatParticle ' + (8 + Math.random() * 12) + 's linear infinite';
+            const symbols = ['✦', '✧', '∗', '·', '✵'];
+            const symbol = symbols[Math.floor(Math.random() * symbols.length)];
+            particle.innerHTML = symbol;
+            particle.style.fontSize = (6 + Math.random() * 8) + 'px';
+            particlesContainer.appendChild(particle);
+        }
+
+        document.addEventListener('mousemove', (e) => {
+            const bg = document.querySelector('.parallax-bg');
+            const container = document.querySelector('.container');
+            const x = (e.clientX / window.innerWidth - 0.5) * 20;
+            const y = (e.clientY / window.innerHeight - 0.5) * 20;
+            const reverseX = (e.clientX / window.innerWidth - 0.5) * -15;
+            const reverseY = (e.clientY / window.innerHeight - 0.5) * -15;
+            bg.style.transform = `translate(${x}px, ${y}px)`;
+            container.style.transform = `translate(${reverseX}px, ${reverseY}px)`;
+        });
+    </script>
+</body>
+</html>
